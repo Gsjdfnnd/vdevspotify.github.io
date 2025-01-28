@@ -102,6 +102,29 @@
     footer a:hover {
       text-decoration: underline;
     }
+
+    /* Estilo da página de incorporação */
+    .iframe-page {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #333;
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .iframe-code {
+      background-color: #f1f1f1;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -117,6 +140,17 @@
       <button onclick="downloadFile('txt')">Salvar como TXT</button>
     </div>
   </main>
+  
+  <!-- Página de Incorporação -->
+  <div class="iframe-page">
+    <h2>Incorpore o Gerador de Links Spotify em Seu Site</h2>
+    <p>Copie o código abaixo e cole em seu site para incorporar o gerador de links Spotify Premium.</p>
+    
+    <div class="iframe-code">
+      <p>&lt;iframe src="https://vdevspotifree.netlify.app/" width="100%" height="600" frameborder="0"&gt;&lt;/iframe&gt;</p>
+    </div>
+  </div>
+
   <footer>
     Desenvolvido por <a href="https://discord.com" target="_blank">@vdev6_001 (Discord)</a>
   </footer>
@@ -194,5 +228,4 @@
     }
   </script>
 </body>
-  </html>
-  
+</html>
