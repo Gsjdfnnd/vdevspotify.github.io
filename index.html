@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Links Spotify Premium</title>
+  <style>
+    /* Estilos Gerais */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(145deg, #1db954, #1ed760);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 0 0 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #1db954;
+      background-color: #ffffff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background-color: #f2f2f2;
+    }
+
+    input, select {
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border-radius: 25px;
+      border: none;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+      outline: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    input:focus {
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+    }
+
+    .save-options {
+      margin-top: 20px;
+      display: none; /* Escondido até que os links sejam gerados */
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    ul li {
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-bottom: 10px;
+      border-radius: 5px;
+      word-wrap: break-word;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>🎵 Gerador de Links Spotify Premium</h1>
+    <p>Gere links exclusivos para acessar Spotify Premium grátis!</p>
+    <input type="number" id="quantity" min="1" placeholder="Quantos links deseja gerar?">
+    <button onclick="generateLinks()">Gerar Links</button>
+    <ul id="linksList"></ul>
+    <div class="save-options">
+      <p>Deseja salvar os links?</p>
+      <button onclick="downloadFile('json')">Salvar como JSON</button>
+      <button onclick="downloadFile('txt')">Salvar como TXT</button>
+    </div>
+  </main>
+  <footer>
+    Desenvolvido por <a href="https://discord.com" target="_blank">@vdev6_001 (Discord)</a>
+  </footer>
+
+  <script>
+    let generatedLinks = [];
+
+    // Gera um código aleatório de 10 caracteres (letras e números)
+    function generateRandomCode(length) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    // Gera os links com base na quantidade especificada pelo usuário
+    function generateLinks() {
+      const quantity = parseInt(document.getElementById("quantity").value);
+      const linksList = document.getElementById("linksList");
+      const saveOptions = document.querySelector(".save-options");
+
+      if (isNaN(quantity) || quantity <= 0) {
+        alert("Por favor, insira um número válido!");
+        return;
+      }
+
+      // Limpa a lista de links gerados
+      linksList.innerHTML = '';
+      generatedLinks = [];
+
+      // Gera os links e adiciona à lista
+      for (let i = 0; i < quantity; i++) {
+        const code = generateRandomCode(10);
+        const link = `https://www.spotify.com/br-pt/ppt/microsoft/?code=${code}`;
+        generatedLinks.push(link);
+
+        // Exibe os links gerados
+        const listItem = document.createElement("li");
+        listItem.textContent = link;
+        linksList.appendChild(listItem);
+      }
+
+      // Mostra as opções de salvar
+      saveOptions.style.display = "block";
+    }
+
+    // Faz o download dos links gerados em JSON ou TXT
+    function downloadFile(type) {
+      if (generatedLinks.length === 0) {
+        alert("Por favor, gere os links primeiro!");
+        return;
+      }
+
+      let data, filename, filetype;
+
+      if (type === 'json') {
+        data = JSON.stringify({ links: generatedLinks }, null, 2);
+        filename = "links.json";
+        filetype = "application/json";
+      } else if (type === 'txt') {
+        data = generatedLinks.join('\n');
+        filename = "links.txt";
+        filetype = "text/plain";
+      }
+
+      const blob = new Blob([data], { type: filetype });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+  </html>
+  
